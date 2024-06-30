@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configapp
+  labels:
+    app: configapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: configapp
+
+  template:
+    metadata:
+      labels:
+        app: configapp
+    spec:
+      containers:
+      - name: testapp
+        image: hwlim78/site-web:food
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DEBUG_LEVEL   # DEBUG_LEVEL(변수명) = debug(DEBUG_INFO 변수값) 호출
+          valueFrom:
+            configMapKeyRef:
+              name: config-dev
+              key: DEBUG_INFO
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: configapp
+  name: configapp-svc
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 30800
+    port: 8080
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: configapp

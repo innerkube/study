@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: food
+  template:
+    metadata:
+      name: food
+      labels:
+        app: food
+    spec:
+      containers:
+      - image: nginx
+        name: food-container
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: food-service
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 30001
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    name: food
+

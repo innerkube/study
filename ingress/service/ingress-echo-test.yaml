@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echo-test-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: master1.innerinfo.net
+    http:
+      paths:
+      - path: /echo-test
+        pathType: Prefix
+        backend:
+          service:
+            name: echo-test
+            port:
+              number: 8080
+

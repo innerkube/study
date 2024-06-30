@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue
+  labels:
+    app: blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blue
+
+  template:
+    metadata:
+      labels:
+        app: blue     # 라벨명
+    spec:
+      containers:
+      - name: blue-web
+        image: thekoguryo/nginx-hello:blue
+#        image: gcr.io/google-samples/kubernetes-bootcamp:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blue-lb
+spec:
+  type: ClusterIP
+#  type: LoadBalancer
+  selector:
+    app: blue
+# loadBalancerIP:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 443

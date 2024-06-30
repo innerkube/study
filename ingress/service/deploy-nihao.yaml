@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nihao
+  labels:
+    app: nihao
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nihao
+
+  template:
+    metadata:
+      labels:
+        app: nihao      # 라벨명
+    spec:
+      containers:
+      - name: sales
+        image: nginx
+        ports:
+        - containerPort: 80
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nihao
+  name: nihao
+  namespace: default   # 네임스페이스 지정(기본 default)
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 30001      # 노드포트
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nihao
+
+
+
+

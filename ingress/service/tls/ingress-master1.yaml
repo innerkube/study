@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-master1
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:
+  - secretName: tls-secret
+  rules:
+  - host: master1.innerinfo.net
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: blue-lb
+              port:
+                number: 80
+
+  - host: master1.innerinfo.net
+    http:
+      paths:
+        - path: /sale
+          pathType: Prefix
+          backend:
+            service:
+              name: sale-svc
+              port:
+                number: 80
+  - host: master1.innerinfo.net
+    http:
+      paths:
+        - path: /food
+          pathType: Prefix
+          backend:
+            service:
+              name: food-svc
+              port:
+                number: 80
+  - host: master1.innerinfo.net
+    http:
+      paths:
+        - path: /green
+          pathType: Prefix
+          backend:
+            service:
+              name: green-lb
+              port:
+                number: 80
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.178.0.7
+

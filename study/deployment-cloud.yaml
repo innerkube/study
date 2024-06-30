@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-cloud
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ingress-cloud
+
+  template:
+    metadata:
+      name: ingress-cloud
+      labels:
+        app: ingress-cloud
+    spec:
+      containers:
+      - name: cloud
+        image: hwlim78/web-site:sale
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ingress-cloud
+  name: ingress-cloud
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 30001
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ingress-cloud
+

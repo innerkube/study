@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-tls-ssl80
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    spec.ingressClassName: nginx
+spec:
+  tls:
+    - hosts:
+        - worker1.innerinfo.net
+      secretName: tls-ssl80
+  rules:
+    - host: worker1.innerinfo.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+           :wq!     name: ssl80
+                port:
+                  number: 80

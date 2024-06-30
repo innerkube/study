@@ -1,0 +1,16 @@
+piVersion: v1
+kind: Service
+metadata:
+  name: nodeport-cloud-deployment
+spec:
+  type: NodePort
+  externalIPs:
+  - 10.178.0.7
+  selector:
+    app: nginx-cloud-deployment
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30000
+

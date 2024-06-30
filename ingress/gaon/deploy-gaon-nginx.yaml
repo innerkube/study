@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gaon
+  labels:
+    app: gaon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gaon
+  template:
+    metadata:
+      labels:
+        app: gaon
+    spec:
+      containers:
+      - name: gaon-web
+        image: hwlim78/gaon-nginx:v1.0
+        volumeMounts:
+        - mountPath: /var/www/html  // 컨테이너 내부 경로
+          name: hostpath-vol        // 호스트 경로
+        env:
+        - name: MYSQL_HOST
+          value: mysql-svc
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: config-gaon
+              key: MYSQL_DATABASE
+        ports:
+        - containerPort: 80
+      volumes:
+      - name: hostpath-vol    // 호스트 경로명 지정
+        hostPath:
+          path: /tmp          // 워드프레스가 베포된 노드의 호스트 경로
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gaon
+spec:
+  type: LoadBalancer
+  LoadBalaceIP: 10.178.0.7
+  selector:
+    app: gaon
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+

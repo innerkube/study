@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-tls-lb
+  annotations:
+#    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    spec.ingressClassName: nginx
+spec:
+  tls:
+  - secretName: tls-secret
+  rules:
+  - host: hwlim.kro.kr
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: blue-lb
+              port:
+                number: 80
+  - host: jhlim.kro.kr
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: green-lb
+              port:
+                number: 80
+  - host: hilim.kro.kr
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: nginx-lb
+              port:
+                number: 80
+
+

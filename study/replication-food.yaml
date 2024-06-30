@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: food
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    app: food
+  template:
+    matadata:
+      name: food
+      labels:
+        app: food
+    spec:
+      containers:
+      - image: hwlim78/web-site:food
+        name: food-container
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: food-service
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 30001
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    name: food
+

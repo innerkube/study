@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-test
+  labels:
+    app: echo-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: echo-test
+
+  template:
+    metadata:
+      labels:
+        app: echo-test     # 라벨명
+    spec:
+      containers:
+      - name: echo-test-web
+        image: k8s.gcr.io/echoserver:1.5
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: echo-test
+  name: echo-test
+  namespace: default   # 네임스페이스 지정(기본 default)
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 30021      # 노드포트
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: echo-test
+
