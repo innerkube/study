@@ -1,0 +1,18 @@
+Defaulted container "elasticsearch-client" out of: elasticsearch-client, increase-vm-max-map (init)
+Changed password for user apm_system
+PASSWORD apm_system = waAfZ7eQ4usVt2QWi3CI
+
+Changed password for user kibana
+PASSWORD kibana = CT1f07X2y0Not92TnNjc
+
+Changed password for user logstash_system
+PASSWORD logstash_system = B8xndex5m5RQUug6rldB
+
+Changed password for user beats_system
+PASSWORD beats_system = Kyag6Nwr9mocrwwN1GMo
+
+Changed password for user remote_monitoring_user
+PASSWORD remote_monitoring_user = fjU9Y3irqgqysFLJsbIV
+
+Changed password for user elastic
+PASSWORD elastic = 1ie95wkWFulESuNXX2dP
