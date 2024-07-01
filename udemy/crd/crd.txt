@@ -1,0 +1,15 @@
+
+
+
+# CustomResourceDefinition 생성 
+ > Custom Object 만들기 
+
+# apiVersion: "stable.exeample.com/v1" 
+
+ > group: stable.example.com
+
+# kind 
+ > ex) CronTab, pod, service, deployment...
+
+
+ 
