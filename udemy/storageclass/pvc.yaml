@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: myclaim
+  name: local-pv
 spec:
   accessModes: [ "ReadWriteOnce" ]
   storageClassName: google-storage       
